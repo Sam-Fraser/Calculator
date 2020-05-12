@@ -1,5 +1,6 @@
 let firstOperand = 0;
 let secondOperand = 0;
+let answer = 0;
 
 function add(a,b) {
     a = Number(a);
@@ -40,5 +41,13 @@ function operate(operation) {
         default:
             console.log(secondOperand);
     }
+
+}
+
+function displayNum() {
+    
+}
+
+function getFirstOperand(num) {
 
 }
