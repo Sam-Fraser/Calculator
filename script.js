@@ -1,7 +1,9 @@
-let firstOperand = prompt("First number", 0);
-let secondOperand = prompt("Second number", 0);
+let firstOperand = 0;
+let secondOperand = 0;
 
 function add(a,b) {
+    a = Number(a);
+    b = Number(b);
     console.log(a+b);
 }
 
@@ -14,6 +16,9 @@ function multiply(a,b) {
 }
 
 function divide(a,b) {
+    if (b===0) {
+        console.log('No No No No No No');
+    }
     console.log(a/b);
 }
 
