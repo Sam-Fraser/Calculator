@@ -83,6 +83,14 @@ function displayNum() {
                 case 'zero':
                     currentOperand += '0';
                     break;
+                case 'decimal':
+                    if(e.target.getAttribute('class') === 'inUse') {
+                        break;
+                    } else {
+                        currentOperand += '.';
+                        e.target.classList.add('inUse');
+                        break;
+                    }
                 default:
                     currentOperand = answer;
             }
