@@ -1,7 +1,10 @@
 let currentOperand = '';
 let currentAnswer = '';
+let currentOperator = '';
 const operands = [];
 const operations = [];
+
+let displayText = document.getElementById('displayText');
 
 function add(a,b) {
     a = Number(a);
@@ -24,32 +27,19 @@ function divide(a,b) {
     console.log(a/b);
 }
 
-function operate(operation) {
+function displayValue() {
+    createNum();
+    createOperation();
+}
 
-    switch (operation) {
-        case 'add':
-            add(firstOperand,secondOperand);
-            break;
-        case 'subtract':
-            subtract(firstOperand,secondOperand);
-            break;
-        case 'multiply':
-            multiply(firstOperand,secondOperand);
-            break;
-        case 'divide':
-            divide(firstOperand,secondOperand);
-            break;
-        default:
-            console.log(secondOperand);
-    }
+function operate() {
+    
+    const operators = document.querySelectorAll('#operators button')
 
 }
 
-function displayNum() {
-    let displayText = document.getElementById('displayText');
-
+function createNum() {
     const nums = document.querySelectorAll('#numbers button');
-    console.table(nums);
     nums.forEach((button) => {
         button.addEventListener('click', (e) => {
             switch (button.getAttribute('id')) {
@@ -92,16 +82,51 @@ function displayNum() {
                         break;
                     }
                 default:
-                    currentOperand = answer;
+                    currentOperand = currentAnswer;
             }
             displayText.textContent = currentOperand;
+        });
+    });
+    const operators = document.querySelectorAll('#operators button');
+    operators.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            if (button.getAttribute('id') !== 'equals') {
+                operands.push(currentOperand);
+                document.getElementById('decimal').classList.remove('inUse');
+                currentOperand = '';
+                console.table(operands);
+            } else {
+                currentOperand = '';
+            }
         });
     });
 
 }
 
-function getOperand() {
+function createOperation() {
+    const operators = document.querySelectorAll('#operators button');
+    operators.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            switch (button.getAttribute('id')) {
+                case 'add':
+                    currentOperator = '+';
+                    break;
+                case 'subtract':
+                    currentOperator = '-';
+                    break;
+                case 'multiply':
+                    currentOperator = 'x';
+                    break;
+                case 'divide':
+                    currentOperator = '/';
+                    break;
+                default:
+                    currentOperator = '';
+            }
 
+            displayText.textContent = currentOperator;
+        });
+    });
 }
 
-displayNum();
+displayValue();
