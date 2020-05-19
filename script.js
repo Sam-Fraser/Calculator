@@ -1,41 +1,33 @@
 let currentOperand = '';
-let currentAnswer = '';
+let previousOperand = '';
+let answer = '';
 let currentOperator = '';
-const operands = [];
-const operations = [];
 
 let displayText = document.getElementById('displayText');
 
 function add(a,b) {
-    a = Number(a);
-    b = Number(b);
-    console.log(a+b);
+    return a+b;
 }
 
 function subtract(a,b) {
-    console.log(a-b);
+    return a-b;
 }
 
 function multiply(a,b) {
-    console.log(a*b);
+    return a*b;
 }
 
 function divide(a,b) {
     if (b===0) {
-        console.log('No No No No No No');
+        return 'No No No No No No';
+    } else {
+        return a/b;
     }
-    console.log(a/b);
 }
 
 function displayValue() {
     createNum();
-    createOperation();
-}
-
-function operate() {
-    
-    const operators = document.querySelectorAll('#operators button')
-
+    operate();
 }
 
 function createNum() {
@@ -82,7 +74,7 @@ function createNum() {
                         break;
                     }
                 default:
-                    currentOperand = currentAnswer;
+                    currentOperand = '';
             }
             displayText.textContent = currentOperand;
         });
@@ -90,43 +82,57 @@ function createNum() {
     const operators = document.querySelectorAll('#operators button');
     operators.forEach((button) => {
         button.addEventListener('click', (e) => {
-            if (button.getAttribute('id') !== 'equals') {
-                operands.push(currentOperand);
+            if (e.target.getAttribute('id') === 'equals') {
                 document.getElementById('decimal').classList.remove('inUse');
-                currentOperand = '';
-                console.table(operands);
             } else {
-                currentOperand = '';
+                document.getElementById('decimal').classList.remove('inUse');
+                previousOperand = currentOperand;
             }
         });
     });
-
 }
 
-function createOperation() {
+function operate() {
     const operators = document.querySelectorAll('#operators button');
     operators.forEach((button) => {
         button.addEventListener('click', (e) => {
-            switch (button.getAttribute('id')) {
-                case 'add':
-                    currentOperator = '+';
-                    break;
-                case 'subtract':
-                    currentOperator = '-';
-                    break;
-                case 'multiply':
-                    currentOperator = 'x';
-                    break;
-                case 'divide':
-                    currentOperator = '/';
-                    break;
-                default:
-                    currentOperator = '';
+            if (e.target.getAttribute('id') === 'equals') {
+                getAnswer(currentOperator);
+                displayText.textContent = answer;
+                currentOperand = answer;
+                currentOperator = '';
+            } else if (e.target.getAttribute('id') === 'clear') {
+                currentOperator = '';
+                currentOperand = '';
+                previousOperand = '';
+                answer = '';
+                displayText.textContent = '';
+            } else {
+                currentOperator = e.target.getAttribute('id');
+                currentOperand = '';
             }
-
-            displayText.textContent = currentOperator;
         });
     });
+}
+
+function getAnswer(operator) {
+    previousOperand = Number(previousOperand);
+    currentOperand = Number(currentOperand);
+
+    switch (operator) {
+        case 'add':
+            answer = add(previousOperand,currentOperand);
+            break;
+        case 'subtract':
+            answer = subtract(previousOperand,currentOperand);
+            break;
+        case 'multiply':
+            answer = multiply(previousOperand,currentOperand);
+            break;
+        case 'divide':
+            answer = divide(previousOperand,currentOperand);
+            break;
+    }
 }
 
 displayValue();
