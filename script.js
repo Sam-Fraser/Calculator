@@ -11,7 +11,14 @@ const clear = document.getElementById('clear');
 nums.forEach((button) => {
     button.addEventListener('click', (e) => {
         if (operator == null) {
-            if (!(e.target.getAttribute('class') === 'inUse')) {
+            if (!(e.target.classList.contains('inUse'))) {
+                firstNum += button.textContent;
+                displayText.textContent = firstNum;
+            }
+        } else if (operator === 'equals' && firstNum !== '') {
+            if (!(e.target.classList.contains('inUse'))) {
+                firstNum = '';
+                operator = undefined;
                 firstNum += button.textContent;
                 displayText.textContent = firstNum;
             }
@@ -43,6 +50,9 @@ operators.forEach((button) => {
             document.getElementById('decimal').classList.remove('inUse');
         } else if (button.getAttribute('id') === 'clear') {
             document.getElementById('decimal').classList.remove('inUse');
+        } else if (secondNum === '') {
+            displayText.textContent += ' You need to enter a second number';
+            operator = button.getAttribute('id');
         } else {
             operate(operator, firstNum, secondNum);
             operator = button.getAttribute('id');
@@ -57,21 +67,28 @@ function operate(op, num1, num2) {
 
     switch(op) {
         case 'add':
-            firstNum = add(num1,num2);
+            firstNum = Number(add(num1,num2).toFixed(8));
             secondNum = '';
             break;
         case 'subtract':
-            firstNum = subtract(num1,num2);
+            firstNum = Number(subtract(num1,num2).toFixed(8));
             secondNum = '';
             break;
         case 'multiply':
-            firstNum = multiply(num1,num2);
+            firstNum = Number(multiply(num1,num2).toFixed(8));
             secondNum = '';
             break;
         case 'divide':
-            firstNum = divide(num1,num2);
-            secondNum = '';
-            break;
+            if (num2 === 0) {
+                firstNum = 'No No No No No, Restart';
+                operator = 'equals';
+                secondNum = '';
+                break;
+            } else {
+                firstNum = Number(divide(num1,num2).toFixed(8));
+                secondNum = '';
+                break;
+            }
         default:
             break;
     }
