@@ -51,7 +51,7 @@ operators.forEach((button) => {
         } else if (button.getAttribute('id') === 'clear') {
             document.getElementById('decimal').classList.remove('inUse');
         } else if (secondNum === '') {
-            displayText.textContent += ' You need to enter a second number';
+            displayText.textContent = firstNum;
             operator = button.getAttribute('id');
         } else {
             operate(operator, firstNum, secondNum);
@@ -121,4 +121,9 @@ clear.addEventListener('click', (e) => {
     firstNum = '';
     secondNum = '';
     displayText.textContent = '';
+    document.getElementById('clear').classList.remove('active');
+});
+
+document.getElementById('equals').addEventListener('click', (e) => {
+    document.getElementById('equals').classList.remove('active');
 });
